@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "896023672405",
+    "project_id": "smartexpense-49090",
+    "storage_bucket": "smartexpense-49090.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896023672405:android:438526d16a99bd6c4a86dc",
+        "android_client_info": {
+          "package_name": "com.example.smartexpense"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCg6UPJQ9L8clTZN3Eo_opv8HE05LNhcPI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
