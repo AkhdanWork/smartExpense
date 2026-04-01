@@ -79,6 +79,7 @@ class _ExpenseDonutChartState extends State<ExpenseDonutChart> {
               color: Colors.black87,
             ),
           ),
+          SizedBox(height: 16),
           SizedBox(
             height: 300,
             child: Stack(

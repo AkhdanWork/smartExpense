@@ -355,7 +355,7 @@ class HomeContent extends StatelessWidget {
 
   Widget _buildBottomCards(HomeController c) {
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
+      padding: const EdgeInsets.fromLTRB(12, 50, 12, 12),
       decoration: BoxDecoration(
         color: const Color(0xFFEEEEEE),
         borderRadius: BorderRadius.circular(24),
@@ -403,7 +403,7 @@ class HomeContent extends StatelessWidget {
     required String value,
   }) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(16),
