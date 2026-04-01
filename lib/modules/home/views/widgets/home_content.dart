@@ -287,41 +287,35 @@ class HomeContent extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Expanded(
-                  child: c.showComparison.value
-                      ? RichText(
-                          text: TextSpan(
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 13,
+                  child: c.prevMonthExpense.value == 0
+                      ? const Text(
+                    'Bulan sebelumnya tidak ada pengeluaran',
+                    style: TextStyle(color: Colors.white, fontSize: 13),
+                  )
+                      : RichText(
+                    text: TextSpan(
+                      style: const TextStyle(color: Colors.white, fontSize: 13),
+                      children: [
+                        TextSpan(
+                          text: c.isExpenseLower.value ? 'Lebih kecil ' : 'Lebih besar ',
+                        ),
+                        TextSpan(
+                          text: '${c.comparisonPercent.value}%',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        const TextSpan(text: ' dibanding\nPengeluaran '),
+                        TextSpan(
+                          text: c.monthLabel(
+                            DateTime(
+                              c.displayMonth.value.year,
+                              c.displayMonth.value.month - 1,
                             ),
-                            children: [
-                              TextSpan(
-                                text: c.isExpenseLower.value
-                                    ? 'Lebih kecil '
-                                    : 'Lebih besar ',
-                              ),
-                              TextSpan(
-                                text: '${c.comparisonPercent.value}%',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const TextSpan(text: ' dibanding\nPengeluaran '),
-                              TextSpan(
-                                text: c.monthLabel(
-                                  DateTime(
-                                    c.displayMonth.value.year,
-                                    c.displayMonth.value.month - 1,
-                                  ),
-                                ),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
                           ),
-                        )
-                      : const SizedBox.shrink(),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
                 if (c.hasNextMonth.value) ...[
                   const SizedBox(width: 10),

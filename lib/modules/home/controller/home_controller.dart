@@ -179,16 +179,12 @@ class HomeController extends GetxController {
     );
     prevMonthExpense.value = await _getMonthExpense(prev, uid);
 
-    if (prevMonthExpense.value > 0) {
-      showComparison.value = true;
-      final diff = currentMonthExpense.value - prevMonthExpense.value;
-      isExpenseLower.value = diff <= 0;
-      comparisonPercent.value = prevMonthExpense.value != 0
-          ? ((diff.abs() * 100) ~/ prevMonthExpense.value)
-          : 0;
-    } else {
-      showComparison.value = false;
-    }
+    showComparison.value = true;
+    final diff = currentMonthExpense.value - prevMonthExpense.value;
+    isExpenseLower.value = diff <= 0;
+    comparisonPercent.value = prevMonthExpense.value != 0
+        ? ((diff.abs() * 100) ~/ prevMonthExpense.value)
+        : 0;
   }
 
   Future<void> _checkNextMonth(String uid) async {
@@ -196,7 +192,10 @@ class HomeController extends GetxController {
       displayMonth.value.year,
       displayMonth.value.month + 1,
     );
-    hasNextMonth.value = await _monthHasTransactions(next, uid);
+    final now = DateTime.now();
+    final currentMonth = DateTime(now.year, now.month);
+
+    hasNextMonth.value = !next.isAfter(currentMonth);
   }
 
   Future<void> goToPrevMonth() async {
@@ -229,6 +228,9 @@ class HomeController extends GetxController {
     final now = DateTime.now();
     if (displayMonth.value.year == now.year &&
         displayMonth.value.month == now.month) {
+      currentMonthTransactions.value = List.from(transactions);
+    } else {
+      // TAMBAHKAN INI
       currentMonthTransactions.value = List.from(transactions);
     }
 
@@ -300,7 +302,8 @@ class HomeController extends GetxController {
         }
         return s;
       });
-    } catch (_) {
+    } catch (e) {
+      print('_getMonthExpense error: $e'); // cek di console
       return 0;
     }
   }

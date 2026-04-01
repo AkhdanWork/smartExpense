@@ -142,19 +142,75 @@ class TransactionController extends GetxController {
     return true;
   }
 
-  Future<void> pickReceipts() async {
+  Future<void> pickReceipts(BuildContext context) async {
+    await showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (_) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 8),
+            Container(
+              width: 40, height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ListTile(
+              leading: const Icon(Icons.camera_alt_outlined),
+              title: const Text('Ambil Foto'),
+              onTap: () async {
+                Get.back();
+                await _pickFromSource(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined),
+              title: const Text('Pilih dari Galeri'),
+              onTap: () async {
+                Get.back();
+                await _pickFromGallery();
+              },
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickFromSource(ImageSource source) async {
     try {
-      final List<XFile>? picked = await _picker.pickMultiImage(
+      final XFile? picked = await _picker.pickImage(
+        source: source,
         imageQuality: 70,
       );
+      if (picked != null) {
+        final newList = List<XFile>.from(receiptImages);
+        if (newList.length < 5) {
+          newList.add(picked);
+          receiptImages.value = newList;
+        } else {
+          Get.snackbar('Info', 'Maksimal 5 foto');
+        }
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Gagal mengambil foto: $e');
+    }
+  }
+
+  Future<void> _pickFromGallery() async {
+    try {
+      final List<XFile>? picked = await _picker.pickMultiImage(imageQuality: 70);
       if (picked != null && picked.isNotEmpty) {
         final newList = List<XFile>.from(receiptImages);
         newList.addAll(picked);
-        if (newList.length > 5) {
-          receiptImages.value = newList.sublist(0, 5);
-        } else {
-          receiptImages.value = newList;
-        }
+        receiptImages.value = newList.length > 5 ? newList.sublist(0, 5) : newList;
       }
     } catch (e) {
       Get.snackbar('Error', 'Gagal memilih foto: $e');

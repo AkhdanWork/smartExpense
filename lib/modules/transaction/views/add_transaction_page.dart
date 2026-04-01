@@ -307,7 +307,7 @@ class AddTransactionPage extends StatelessWidget {
                                   itemBuilder: (ctx, idx) {
                                     if (idx == imgs.length) {
                                       return GestureDetector(
-                                        onTap: controller.pickReceipts,
+                                        onTap: () => controller.pickReceipts(context),
                                         child: Container(
                                           width: 90,
                                           height: 90,

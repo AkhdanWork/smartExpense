@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:quickly/quickly.dart';
 import '../../../routes/app_routes.dart';
@@ -148,10 +149,10 @@ class AkunPage extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     const SizedBox(height: 10),
-
-                                    const Text(
-                                      '🫶',
-                                      style: TextStyle(fontSize: 48),
+                                    SvgPicture.asset(
+                                      'assets/icons/love_gesture.svg',
+                                      width: 48,
+                                      height: 48,
                                     ),
                                     const SizedBox(height: 16),
                                     const Text(

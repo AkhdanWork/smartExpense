@@ -44,6 +44,7 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<key>NSCameraUsageDescription</key>
 	<true/>
 </dict>
 </plist>
