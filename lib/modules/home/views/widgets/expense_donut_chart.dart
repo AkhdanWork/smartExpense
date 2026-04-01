@@ -115,17 +115,17 @@ class _ExpenseDonutChartState extends State<ExpenseDonutChart> {
                     borderData: FlBorderData(show: false),
                     sectionsSpace: 2,
                     centerSpaceRadius: 75,
+                    startDegreeOffset: -90,
                     sections: List.generate(categoryList.length, (i) {
                       final isTouched = i == touchedIndex;
                       final radius = isTouched ? 40.0 : 30.0;
                       final data = categoryList[i];
-                      final percent =
-                          (data.total / widget.totalPengeluaran) * 100;
+                      final percent = (data.total / widget.totalPengeluaran) * 100;
 
                       return PieChartSectionData(
                         color: CategoryStyle.colorByName(data.name),
                         value: percent,
-                        title: '',
+                        showTitle: false,
                         radius: radius,
                         badgeWidget: _Badge(
                           data.iconPath,

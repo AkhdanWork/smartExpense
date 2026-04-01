@@ -193,15 +193,17 @@ class StatisticsPage extends StatelessWidget {
             GestureDetector(
               onTap: () async {
                 final now = DateTime.now();
+                final today = DateTime(now.year, now.month, now.day, 23, 59, 59);
+                final clampedEnd = c.endDate.value.isAfter(today) ? today : c.endDate.value;
 
                 final pickedRange = await showDateRangePicker(
                   context: Get.context!,
                   initialDateRange: DateTimeRange(
                     start: c.startDate.value,
-                    end: c.endDate.value,
+                    end: clampedEnd,
                   ),
                   firstDate: DateTime(2020),
-                  lastDate: now,
+                  lastDate: today,
                   builder: (ctx, child) => Theme(
                     data: ThemeData(
                       colorScheme: const ColorScheme.light(
