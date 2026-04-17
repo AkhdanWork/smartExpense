@@ -29,6 +29,7 @@ class HomeController extends GetxController {
   final isExpenseLower = true.obs;
 
   final balance = 0.obs;
+  final allTimeBalance = 0.obs;
   final weekExpense = 0.obs;
   final todayExpense = 0.obs;
 
@@ -50,6 +51,29 @@ class HomeController extends GetxController {
         name.value = user.email!.split('@')[0];
       }
     }
+  }
+
+  Future<void> _loadAllTimeBalance() async {
+    final user = _fb.auth.currentUser;
+    if (user == null) return;
+
+    try {
+      final q = await _fb.db
+          .collection('transactions')
+          .where('userId', isEqualTo: user.uid)
+          .get();
+
+      int total = 0;
+      for (final doc in q.docs) {
+        final t = TransactionModel.fromMap(doc.data(), doc.id);
+        if (t.type == 'pemasukan') {
+          total += t.nominal.toInt();
+        } else {
+          total -= t.nominal.toInt();
+        }
+      }
+      allTimeBalance.value = total;
+    } catch (_) {}
   }
 
   String get greeting {
@@ -120,6 +144,7 @@ class HomeController extends GetxController {
       }
 
       _recalculate();
+      await _loadAllTimeBalance();
       await _fetchComparison(user.uid);
       await _checkNextMonth(user.uid);
 
@@ -230,11 +255,11 @@ class HomeController extends GetxController {
         displayMonth.value.month == now.month) {
       currentMonthTransactions.value = List.from(transactions);
     } else {
-      // TAMBAHKAN INI
       currentMonthTransactions.value = List.from(transactions);
     }
 
     _recalculate();
+    await _loadAllTimeBalance();
     await _fetchComparison(user.uid);
     await _checkNextMonth(user.uid);
   }

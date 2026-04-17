@@ -7,12 +7,16 @@ class ExpenseDonutChart extends StatefulWidget {
   final List<TransactionModel> transactions;
   final DateTime displayMonth;
   final int totalPengeluaran;
+  final VoidCallback onPrevMonth;
+  final VoidCallback? onNextMonth;
 
   const ExpenseDonutChart({
     Key? key,
     required this.transactions,
     required this.displayMonth,
     required this.totalPengeluaran,
+    required this.onPrevMonth,
+    this.onNextMonth,
   }) : super(key: key);
 
   @override
@@ -71,15 +75,50 @@ class _ExpenseDonutChartState extends State<ExpenseDonutChart> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Rasio Kategori Pengeluaran',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: Colors.black87,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Rasio Kategori Pengeluaran',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
+              ),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: widget.onPrevMonth,
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF0F0F0),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: const Icon(Icons.chevron_left, size: 20, color: Colors.black87),
+                    ),
+                  ),
+                  if (widget.onNextMonth != null) ...[
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: widget.onNextMonth,
+                      child: Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF0F0F0),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Icon(Icons.chevron_right, size: 20, color: Colors.black87),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           SizedBox(
             height: 300,
             child: Stack(

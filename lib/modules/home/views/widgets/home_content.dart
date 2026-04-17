@@ -34,10 +34,12 @@ class HomeContent extends StatelessWidget {
                       _buildTransactionCard(c),
                       const SizedBox(height: 20),
                       Obx(
-                        () => ExpenseDonutChart(
+                            () => ExpenseDonutChart(
                           transactions: c.transactions,
                           displayMonth: c.displayMonth.value,
                           totalPengeluaran: c.currentMonthExpense.value,
+                          onPrevMonth: c.goToPrevMonth,
+                          onNextMonth: c.hasNextMonth.value ? c.goToNextMonth : null,
                         ),
                       ),
                     ],
@@ -458,7 +460,7 @@ class HomeContent extends StatelessWidget {
 
   Widget _buildBalanceCard(HomeController c) {
     return Obx(() {
-      final isNeg = c.balance.value < 0;
+      final isNeg = c.allTimeBalance.value < 0;
       return SizedBox(
         height: 60,
         child: Stack(
@@ -511,7 +513,7 @@ class HomeContent extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  (isNeg ? '-' : '') + _fmt(c.balance.value),
+                  (isNeg ? '-' : '') + _fmt(c.allTimeBalance.value),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
